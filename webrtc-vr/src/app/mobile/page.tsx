@@ -6,6 +6,7 @@ import * as THREE from "three";
 const Mobile = () => {
   const [stream, setStream] = useState<any>(null);
   const videoRef = useRef<any>(null);
+  const videoRef2 = useRef<any>(null);
   const sceneRef = useRef<any>(null);
   const cameraRef = useRef<any>(null);
   const rendererRef = useRef<any>(null);
@@ -13,6 +14,7 @@ const Mobile = () => {
   const peerConnectionRef = useRef<RTCPeerConnection | null>(null);
   const pendingCandidates = useRef<any[]>([]); // Store ICE candidates until remote description is set
   const socketRef = useRef<any>(null); // Store socket reference
+  const [interacted, setInteracted] = useState(false);
 
   useEffect(() => {
     // Initialize socket connection
@@ -50,6 +52,11 @@ const Mobile = () => {
         if (videoRef.current) {
           videoRef.current.srcObject = remoteStream;
           videoRef.current.play(); // Ensure video playback
+        }
+
+        if (videoRef2.current) {
+          videoRef2.current.srcObject = remoteStream;
+          videoRef2.current.play(); // Ensure video playback
         }
       };
 
@@ -173,9 +180,33 @@ const Mobile = () => {
   }, [stream]);
 
   return (
-    <div>
-      <h1>Mobile VR Screen</h1>
-      <video ref={videoRef} autoPlay controls />
+    <div className="flex w-full h-screen flex-wrap">
+      {!interacted && (
+        <div
+          className="w-full h-screen bg-red-400 flex items-center justify-center"
+          onClick={() => {
+            setInteracted(true);
+          }}
+        >
+          <h1 className="text-[10vw] text-white cursor-pointer">INTERACT</h1>
+        </div>
+      )}
+      {interacted && (
+        <>
+          <video
+            ref={videoRef}
+            autoPlay
+            controls
+            className="w-1/2 h-full object-cover object-center"
+          />
+          <video
+            ref={videoRef2}
+            autoPlay
+            controls
+            className="w-1/2 h-full object-cover object-center"
+          />
+        </>
+      )}
     </div>
   );
 };
