@@ -1,0 +1,24 @@
+# Ignore the node_modules folders in both projects
+node_modules/
+
+# Ignore the Next.js build folder
+.next/
+
+# Ignore the Next.js output folder (for static exports)
+out/
+
+# Ignore log files
+npm-debug.log
+yarn-error.log
+
+# Ignore environment variables files
+.env
+.env.local
+.env.development
+.env.production
+
+# macOS files
+.DS_Store
+
+# Ignore any other local deployment directories (e.g., Vercel, Docker, etc.)
+.vercel/
